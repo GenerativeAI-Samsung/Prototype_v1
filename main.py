@@ -69,6 +69,7 @@ if __name__ == '__main__':
         }
 
     # Fill Parameter
+    prompt = f"Generate parameter for Quadratic Equation from this: {user_input}"
     filler = CustomJsonformer(device=device).to(device)
-    generated_data = filler(prompt=user_input, json_schema=json_schema)
+    generated_data = filler(prompt=prompt, json_schema=json_schema)
     print(f"Generated_data: {generated_data}")
