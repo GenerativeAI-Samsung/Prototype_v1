@@ -35,7 +35,7 @@ if __name__ == '__main__':
     # Cosine similarity 
     cos = nn.CosineSimilarity(dim=-1, eps=1e-6)
     output = cos(user_input_vector, function_vectors)
-    prediction = torch.argmax(output)
+    prediction = torch.argmax(output).item()
     
     if (prediction==0):
         print("Matrix Multiplication of (2x2) by (2x2)")
