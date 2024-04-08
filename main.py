@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 
 from SentenceEmbedding import SentenceEmbedding
+from Jsonformer import Jsonformer 
 
 if __name__ == '__main__':
 
@@ -41,11 +42,33 @@ if __name__ == '__main__':
     
     if (prediction==0):
         print("Function: Matrix Multiplication of (2x2) by (2x2)")
+        json_schema = {
+            "properties": {
+                "vector_1": {"type": "array"},
+                "vector_2": {"type": "array"}
+            } 
+        }
+
     if (prediction==1):
         print("Function: Quadratic Equation")
-    if (prediction==1):
+        json_schema = {
+            "properties": {
+                "a": {"type": "number"},
+                "b": {"type": "number"}
+            } 
+        }
+
+    if (prediction==2):
         print("Function: Cubic Equation")
-    
+        json_schema = {
+            "properties": {
+                "a": {"type": "number"},
+                "b": {"type": "number"},
+                "c": {"type": "number"}
+            } 
+        }
+
     # Fill Parameter
-    
-    
+    filler = Jsonformer(device=device).to(device)
+    generated_data = filler(prompt=user_input, json_schema=json_schema)
+    print(f"Generated_data: {generated_data}")
