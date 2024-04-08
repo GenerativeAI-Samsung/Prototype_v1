@@ -43,6 +43,7 @@ if __name__ == '__main__':
     if (prediction==0):
         print("Function: Matrix Multiplication of (2x2) by (2x2)")
         json_schema = {
+            "type": "Matrix Multiplication of (2x2) by (2x2)",
             "properties": {
                 "vector_1": {"type": "array"},
                 "vector_2": {"type": "array"}
@@ -52,26 +53,25 @@ if __name__ == '__main__':
     if (prediction==1):
         print("Function: Quadratic Equation")
         json_schema = {
-            "name": "object",
+            "type": "Quadratic Equation",
             "properties": {
-                "a": {"type": "number"},
-                "b": {"type": "number"},
-                "c": {"type": "number"}
+                "constant of x^2": {"type": "number"},
+                "constant of x": {"type": "number"},
+                "scalar": {"type": "number"}}
             } 
-        }
 
     if (prediction==2):
         print("Function: Cubic Equation")
         json_schema = {
+            "type": "Cubic Equation",
             "properties": {
-                "": {"type": "number"},
-                "b": {"type": "number"},
-                "c": {"type": "number"}
+                "constant of x^3": {"type": "number"},
+                "constant of x^2": {"type": "number"},
+                "constant of x": {"type": "number"},
+                "scalar": {"type": "number"}}
             } 
-        }
 
     # Fill Parameter
-    prompt = f"input format: ax^2 + bx + c = 0. User input: {user_input}"
     filler = CustomJsonformer(device=device).to(device)
-    generated_data = filler(prompt=prompt, json_schema=json_schema)
+    generated_data = filler(prompt=user_input, json_schema=json_schema)
     print(f"Generated_data: {generated_data}")
