@@ -52,15 +52,7 @@ if __name__ == '__main__':
     if (prediction==1):
         print("Function: Quadratic Equation")
         json_schema = {
-            "properties": {
-                "a": {"type": "number"},
-                "b": {"type": "number"}
-            } 
-        }
-
-    if (prediction==2):
-        print("Function: Cubic Equation")
-        json_schema = {
+            "name": "object",
             "properties": {
                 "a": {"type": "number"},
                 "b": {"type": "number"},
@@ -68,8 +60,18 @@ if __name__ == '__main__':
             } 
         }
 
+    if (prediction==2):
+        print("Function: Cubic Equation")
+        json_schema = {
+            "properties": {
+                "": {"type": "number"},
+                "b": {"type": "number"},
+                "c": {"type": "number"}
+            } 
+        }
+
     # Fill Parameter
-    prompt = f"Generate parameter for Quadratic Equation from this: {user_input}"
+    prompt = f"input format: ax^2 + bx + c = 0. User input: {user_input}"
     filler = CustomJsonformer(device=device).to(device)
     generated_data = filler(prompt=prompt, json_schema=json_schema)
     print(f"Generated_data: {generated_data}")
