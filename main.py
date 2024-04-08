@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 
 from SentenceEmbedding import SentenceEmbedding
-from Jsonformer import Jsonformer 
+from Jsonformer import CustomJsonformer 
 
 if __name__ == '__main__':
 
@@ -69,6 +69,6 @@ if __name__ == '__main__':
         }
 
     # Fill Parameter
-    filler = Jsonformer(device=device).to(device)
+    filler = CustomJsonformer(device=device).to(device)
     generated_data = filler(prompt=user_input, json_schema=json_schema)
     print(f"Generated_data: {generated_data}")
