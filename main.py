@@ -9,7 +9,7 @@ from SentenceEmbedding import SentenceEmbedding
 if __name__ == '__main__':
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    embedding = SentenceEmbedding().to(device)
+    embedding = SentenceEmbedding(device=device).to(device)
 
     # Loading Function Vector
     # Index 0 -> "Matrix Multiplication of (2x2) by (2x2)"
@@ -18,13 +18,14 @@ if __name__ == '__main__':
     if os.path.isfile("/content/FunctionVectors.json"):
         with open("/content/FunctionVectors.json") as f:
             function_vectors = json.load(f)
+        function_vectors = torch.tensor(function_vectors).to(device)
     else:
         functions_list = ["Matrix Multiplication of (2x2) by (2x2)",
                           "Quadratic Equation",
                           "Cubic Equations"]
         function_vectors = embedding(functions_list)
 
-        json_object = json.dumps(function_vectors)
+        json_object = json.dumps(function_vectors.tolist())
         with open("/content/FunctionVectors.json", "w") as outfile:
             outfile.write(json_object)
     
