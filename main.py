@@ -41,17 +41,23 @@ if __name__ == '__main__':
     prediction = torch.argmax(output).item()
     
     if (prediction==0):
-        print("Function: Matrix Multiplication of (2x2) by (2x2)")
+        function_name = "Matrix Multiplication of (2x2) by (2x2)"
         json_schema = {
             "type": "Matrix Multiplication of (2x2) by (2x2)",
             "properties": {
-                "vector_1": {"type": "array"},
-                "vector_2": {"type": "array"}
+                "vector_1, x1": {"type": "number"},
+                "vector_1, x2": {"type": "number"},
+                "vector_1, x3": {"type": "number"},
+                "vector_1, x4": {"type": "number"},
+                "vector_2, x1": {"type": "number"},
+                "vector_2, x2": {"type": "number"},
+                "vector_2, x3": {"type": "number"},
+                "vector_2, x4": {"type": "number"}
             } 
         }
 
     if (prediction==1):
-        print("Function: Quadratic Equation")
+        function_name = "Quadratic Equation"
         json_schema = {
             "type": "Quadratic Equation",
             "properties": {
@@ -61,7 +67,7 @@ if __name__ == '__main__':
             } 
 
     if (prediction==2):
-        print("Function: Cubic Equation")
+        function_name = "Cubic Equation"
         json_schema = {
             "type": "Cubic Equation",
             "properties": {
@@ -71,7 +77,9 @@ if __name__ == '__main__':
                 "scalar": {"type": "number"}}
             } 
 
+
     # Fill Parameter
+    prompt = f'Context: "{user_input}". Generate constant of {function_name} based on the following schema'
     filler = CustomJsonformer(device=device).to(device)
-    generated_data = filler(prompt=user_input, json_schema=json_schema)
+    generated_data = filler(prompt=prompt, json_schema=json_schema)
     print(f"Generated_data: {generated_data}")
