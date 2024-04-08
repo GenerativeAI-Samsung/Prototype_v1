@@ -8,6 +8,8 @@ from SentenceEmbedding import SentenceEmbedding
 
 if __name__ == '__main__':
 
+    # Detect suitable function from Toolkit 
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     embedding = SentenceEmbedding(device=device).to(device)
 
@@ -38,8 +40,12 @@ if __name__ == '__main__':
     prediction = torch.argmax(output).item()
     
     if (prediction==0):
-        print("Matrix Multiplication of (2x2) by (2x2)")
+        print("Function: Matrix Multiplication of (2x2) by (2x2)")
     if (prediction==1):
-        print("Quadratic Equation")
+        print("Function: Quadratic Equation")
     if (prediction==1):
-        print("Cubic Equation")
+        print("Function: Cubic Equation")
+    
+    # Fill Parameter
+    
+    
