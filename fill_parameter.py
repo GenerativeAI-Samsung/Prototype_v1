@@ -2,44 +2,24 @@ import os
 import json
 
 import torch
-import torch.nn as nn
 
-from SentenceEmbedding import SentenceEmbedding
 from Jsonformer import CustomJsonformer 
+from utils import blockPrint, enablePrint
 
 if __name__ == '__main__':
 
-    # Detect suitable function from Toolkit 
+    print("Filling paramter...")
+
+    blockPrint()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    embedding = SentenceEmbedding(device=device).to(device)
 
-    # Loading Function Vector
-    # Index 0 -> "Matrix Multiplication of (2x2) by (2x2)"
-    # Index 1 -> "Quadratic Equation"
-    # Index 2 -> "Cubic Equations"
-    if os.path.isfile("/content/FunctionVectors.json"):
-        with open("/content/FunctionVectors.json") as f:
-            function_vectors = json.load(f)
-        function_vectors = torch.tensor(function_vectors).to(device)
-    else:
-        functions_list = ["Matrix Multiplication of (2x2) by (2x2)",
-                          "Quadratic Equation",
-                          "Cubic Equations"]
-        function_vectors = embedding(functions_list)
-
-        json_object = json.dumps(function_vectors.tolist())
-        with open("/content/FunctionVectors.json", "w") as outfile:
-            outfile.write(json_object)
+    with open("/content/function_name.json") as f:
+        function_name = json.load(f)
     
-    user_input = input("Please provide answer of math problem: ")
-    user_input_vector = embedding(user_input)
+    prediction = function_name["prediction"]
+    user_input = function_name["user_input"]
 
-    # Cosine similarity 
-    cos = nn.CosineSimilarity(dim=-1, eps=1e-6)
-    output = cos(user_input_vector, function_vectors)
-    prediction = torch.argmax(output).item()
-    
     if (prediction==0):
         function_name = "Matrix Multiplication of (2x2) by (2x2)"
         json_schema = {
@@ -82,4 +62,11 @@ if __name__ == '__main__':
     prompt = f'Context: "{user_input}". Generate constant of {function_name} based on the following schema'
     filler = CustomJsonformer(device=device).to(device)
     generated_data = filler(prompt=prompt, json_schema=json_schema)
-    print(f"Generated_data: {generated_data}")
+    
+    enablePrint()
+    print("Done!")
+ 
+    # Return result
+    json_object = json.dumps({"prediction": prediction, "generated_data": generated_data})
+    with open("/content/filled_parameter.json", "w") as outfile:
+        outfile.write(json_object)
