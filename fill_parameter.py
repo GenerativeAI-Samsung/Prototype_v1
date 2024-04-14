@@ -67,6 +67,6 @@ if __name__ == '__main__':
     print("Done!")
  
     # Return result
-    json_object = json.dumps({"prediction": prediction, "generated_data": generated_data})
+    json_object = json.dumps([{"prediction": prediction}, generated_data])
     with open("/content/filled_parameter.json", "w") as outfile:
         outfile.write(json_object)

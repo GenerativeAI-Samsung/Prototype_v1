@@ -7,11 +7,11 @@ if __name__ == "__main__":
     print("Preparing for animation...")
 
     blockPrint()
-    with open("/content/filled_parameter.json", "w") as f:
+    with open("/content/filled_parameter.json") as f:
         filled_parameter = json.load(f)
 
-    prediction = filled_parameter["prediction"]
-    generated_data = filled_parameter["generated_data"]
+    prediction = filled_parameter[0]["prediction"]
+    generated_data = filled_parameter[1]
 
     if prediction==0:
         code = f"""
